@@ -1,0 +1,8 @@
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\api-ventas.csproj.AssemblyReference.cache
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\api-ventas.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\api-ventas.AssemblyInfoInputs.cache
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\api-ventas.AssemblyInfo.cs
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\api-ventas.csproj.CoreCompileInputs.cache
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\api-ventas.MvcApplicationPartsAssemblyInfo.cs
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\api-ventas.MvcApplicationPartsAssemblyInfo.cache
+C:\repos\api-ventas\api-ventas\obj\Release\net6.0\EFCoreNpgsqlNetTopologySuite.cs
