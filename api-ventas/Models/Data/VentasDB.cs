@@ -11,11 +11,15 @@ namespace api_ventas.Models.Data
 
         }
 
-        public DbSet<CONSORCIO> Consorcio => Set<CONSORCIO>();
-        public DbSet<EMPRESA> Empresa => Set<EMPRESA>();
-        public DbSet<UNEGOCIO> UNegocio => Set<UNEGOCIO>();
-        public DbSet<LOGIN> Login => Set<LOGIN>();
-        public DbSet<PERFIL> Perfil => Set<PERFIL>();
+        public DbSet<TConsorcio> Consorcio => Set<TConsorcio>();
+        public DbSet<TEmpresa> Empresa => Set<TEmpresa>();
+        public DbSet<TUNegocio> UNegocio => Set<TUNegocio>();
+        public DbSet<TLogin> Login => Set<TLogin>();
+        public DbSet<TPerfil> Perfil => Set<TPerfil>();
+        public DbSet<TCatProducto> CatProducto => Set<TCatProducto>();
+        public DbSet<TTipoMedida> TipoMedida => Set<TTipoMedida>();
+        public DbSet<TProducto> Producto => Set<TProducto>();
+        public DbSet<TStock> Stock => Set<TStock>();
 
     }
 }

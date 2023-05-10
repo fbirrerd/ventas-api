@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "jJu90NULot+8fhZEtrOew5+5R9yQ5xrR8Z3lQAHgFXzGXS0pHxnfIZe1JDBfi1rPPegabv6SFfKs3FCpEE8+ZQ==",
+  "dgSpecHash": "KibmrgBsE+YbPdJVZKcAS+mELVuRR7PNC3ZpKvjoemtaZhlLzR/1qU4x4BK9CnPUVZpr14F9ibtEfX22uf2/Fw==",
   "success": true,
   "projectFilePath": "C:\\repos\\ventas-api\\api-ventas\\api-ventas.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\panch\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
+    "C:\\Users\\panch\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\panch\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "C:\\Users\\panch\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\panch\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\panch\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",

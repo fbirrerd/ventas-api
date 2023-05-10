@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "qGPQjze+HNdj/kJldlAujTbNW3ap0FsTqyG9yFVqTCU=",
+  "Source": "api-ventas",
+  "BasePath": "_content/api-ventas",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
