@@ -9,13 +9,18 @@ namespace api_ventas.Models.Tables
     public class TStock
     {
         [Key]
+        [Required]
+        public long stock_id { set; get; }
+        [Required]
+        public long empresa_id { set; get; }
+        [Required]
         public long unegocio_id { set; get; }
         [Required]
-        [StringLength(100)]
-        public string nombre { set; get; }
-        public DateTime fecha_creacion { set; get; }
+        public long producto_id { set; get; }
         [Required]
-        public int estado { set; get; }
-        public long empresa_id { set; get; }
+        public decimal cant_historico { set; get; }
+        public decimal cant_disponible { set; get; }
+        public decimal cant_merma { set; get; }
+        public decimal cant_reserva { set; get; }
     }
 }

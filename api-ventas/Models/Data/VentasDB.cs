@@ -20,6 +20,7 @@ namespace api_ventas.Models.Data
         public DbSet<TTipoMedida> TipoMedida => Set<TTipoMedida>();
         public DbSet<TProducto> Producto => Set<TProducto>();
         public DbSet<TStock> Stock => Set<TStock>();
+        public DbSet<TStockMovimiento> StockMovimiento => Set<TStockMovimiento>();
 
     }
 }

@@ -9,16 +9,7 @@ namespace api_ventas.Models.Business
         {
             this.db = db;
         }
-        public bool existUNegocioXId(long id)
-        {
-            bool exist = false;
-            int contar = (from e in db.UNegocio
-                          where e.unegocio_id == id
-                          select e).Count();
 
-            if (contar > 0) exist = true;
-            return exist;
-        }
 
     }
 }

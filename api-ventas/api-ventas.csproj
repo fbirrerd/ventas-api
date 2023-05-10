@@ -27,6 +27,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="layers\application\" />
+    <Folder Include="layers\model\" />
+    <Folder Include="layers\domain\" />
+    <Folder Include="layers\infrastructure\" />
+    <Folder Include="layers\persistence\" />
+    <Folder Include="layers\services\" />
+    <Folder Include="layers\presentation\" />
+    <Folder Include="layers\data\" />
     <Folder Include="Models\DTO\" />
   </ItemGroup>
 

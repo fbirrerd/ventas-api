@@ -26,15 +26,7 @@ namespace api_ventas.Models.Tables
         [Required]
         public long tipo_medida_id { set; get; }
         public decimal valor_medida { set; get; }
-        public class Validator : AbstractValidator<TProducto>
-        {
-            public Validator()
-            {
-                //RuleFor(x => x.categoria_producto_id).NotEmpty().WithMessage("Debe enviar un id");
-                //RuleFor(x => x.empresa_id).NotNull().NotEmpty().WithMessage("Debe enviar el id de la empresa");
-                RuleFor(x => x.nombre1).NotNull().Length(1, 50).NotEmpty().WithMessage("Debe enviar un mombre del producto");
-            }
-        }
+
 
     }
 }

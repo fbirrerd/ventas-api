@@ -45,11 +45,8 @@ if (app.Environment.IsDevelopment())
 }
 var grupo = app.MapGroup("/api/v1");
 //RoutesMantenedores.ActiveRoutes(grupo);
+RoutesProducto.ActiveRoutes(grupo);
 RoutesStock.ActiveRoutes(grupo);
-
-
-
-
 
 
 app.Run();
