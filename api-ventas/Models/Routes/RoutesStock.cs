@@ -21,14 +21,14 @@ namespace api_ventas.Models.Routes
             app.MapPost("/stock", async (
                     iMovimientoStock obj,
                     IValidator<iMovimientoStock> validator,
-                    VentasDB db) =>
+                    VentasDB Db) =>
             {
                 var validationResult = validator.Validate(obj);
                 if (validationResult.IsValid)
                 {
                     try
                     {
-                        var bandeera = Business.Stock.GenerarMovimientoBodega(obj, db);
+                        var bandeera = Business.Stock.GenerarMovimientoBodega(obj, Db);
                         return Results.Ok(bandeera);
                     }
                     catch (Exception ex)
@@ -45,12 +45,12 @@ namespace api_ventas.Models.Routes
             app.MapPost("/stock/{empresa}/{producto}", async (
                 long empresa,
                 long producto,
-                VentasDB db) =>
+                VentasDB Db) =>
             {
                 //buscar datos de producto
                 //id, nombre, unidadMedida, Medida, stockDisponible
                 try {
-                    oProducto oProd = Stock.getDatosProducto(empresa, producto);
+                    oProducto oProd = Stock.getDatosProducto(empresa, producto, Db);
                     Results.Ok(oProd);
                 }
                 catch (Exception ex) {

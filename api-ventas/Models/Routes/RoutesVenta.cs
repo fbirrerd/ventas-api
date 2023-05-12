@@ -13,7 +13,7 @@ namespace api_ventas.Models.Routes
 
         public static void ActiveRoutesVenta(RouteGroupBuilder app)
         {
-            app.MapPost("/venta", async (iDoc doc, VentasDB db) =>
+            app.MapPost("/venta", async (iDoc doc, VentasDB Db) =>
             {
                 int r = 10000;
 

@@ -17,6 +17,9 @@ namespace api_ventas.Models.Objects
             this.cantidad = cantidad;
             this.medida = medida;
         }
+        public oProducto()
+        {
+        }
 
     }
 }

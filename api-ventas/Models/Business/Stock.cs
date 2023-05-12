@@ -6,7 +6,7 @@ namespace api_ventas.Models.Business
 {
     public class Stock
     {
-        public static bool GenerarMovimientoBodega(iMovimientoStock oMov, VentasDB db)
+        public static bool GenerarMovimientoBodega(iMovimientoStock oMov, VentasDB Db)
         {
             try {
                 if (oMov == null)
@@ -14,7 +14,7 @@ namespace api_ventas.Models.Business
                     throw new Exception("Datos enviados incomppletos");
                 }
                 TStock? t = null;
-                t = db.Stock.Where(
+                t = Db.Stock.Where(
                     e => e.producto_id == oMov.producto_id &&
                     e.empresa_id == oMov.empresa_id &&
                     e.unegocio_id == oMov.unegocio_id).FirstOrDefault();
@@ -33,7 +33,7 @@ namespace api_ventas.Models.Business
                         cant_historico = oMov.cantidad
                         
                     };
-                    db.Stock.Add(t);
+                    Db.Stock.Add(t);
                 }
                 else 
                 {
@@ -58,8 +58,8 @@ namespace api_ventas.Models.Business
                 sm.empresa_id = oMov.empresa_id;
                 sm.tipo_movimiento = oMov.tipo_movimiento;
 
-                db.StockMovimiento.Add(sm);
-                var r = db.SaveChanges();
+                Db.StockMovimiento.Add(sm);
+                var r = Db.SaveChanges();
                 return true;
             }
             catch (Exception ex) {
@@ -68,14 +68,16 @@ namespace api_ventas.Models.Business
             }
         }
 
-        public static oProducto getDatosProducto(long idEmpresaa, long idProducto) { 
-        
+        public static oProducto getDatosProducto(long idEmpresaa, long idProducto, VentasDB Db) {
+
+            return new oProducto();
         
         }
-        public static bool existStockDisponible(long idEmpresaa, string codigoBarra, decimal Cantidad) {
-            return true;
+        public static bool existStockDisponible(long idEmpresaa, string codigoBarra, decimal CantidadConsultada, VentasDB Db) {
+
+              return true;
         }
-        public static bool existStockDisponible(long idEmpresaa, long idProducto, decimal cantidad)
+        public static bool existStockDisponible(long idEmpresaa, long idProducto, decimal CantidadConsultada)
         {
             return true;
         }

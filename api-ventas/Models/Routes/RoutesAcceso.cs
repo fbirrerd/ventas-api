@@ -15,23 +15,23 @@ namespace api_ventas.Models.Routes
 
         public static void ActiveRoutesLogin(WebApplication app)
         {
-            app.MapGet("/login", (VentasDB db) =>
+            app.MapGet("/login", (VentasDB Db) =>
             {
-                return db.Login.ToList()
+                return Db.Login.ToList()
                 is List<TLogin> l
                 ? Results.Ok(l)
                 : Results.NotFound();
             });
-            app.MapGet("/login/{login}", (string login, VentasDB db) =>
+            app.MapGet("/login/{login}", (string login, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    if (login == null || db.Login == null)
+                    if (login == null || Db.Login == null)
                     {
                         throw new Exception("Datos no encontrados");
                     }
-                    r.respuesta = db.Login.FirstOrDefault(e => e.usuario == login);
+                    r.respuesta = Db.Login.FirstOrDefault(e => e.usuario == login);
                 }
                 catch (Exception ex)
                 {
@@ -40,12 +40,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPost("/login", async (TLogin obj, VentasDB db) =>
+            app.MapPost("/login", async (TLogin obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    Login c = new(db);
+                    Login c = new(Db);
 
                     if (c.existLoginXLogin(obj.usuario))
                     {
@@ -61,10 +61,10 @@ namespace api_ventas.Models.Routes
 
 
                     obj.fecha_creacion = DateTime.Now;
-                    db.Login.Add(obj);
-                    await db.SaveChangesAsync();
+                    Db.Login.Add(obj);
+                    await Db.SaveChangesAsync();
 
-                    r.respuesta = db.Login
+                    r.respuesta = Db.Login
                         .OrderByDescending(e => e.fecha_creacion)
                         .First();
 
@@ -76,12 +76,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPut("/login", (TLogin obj, VentasDB db) =>
+            app.MapPut("/login", (TLogin obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    Login c = new(db);
+                    Login c = new(Db);
 
                     if (c.existLoginXLogin(obj.usuario))
                     {
@@ -94,7 +94,7 @@ namespace api_ventas.Models.Routes
                         throw new Exception(String.Format("Ya existe un email {0} en la base de datos",
                             "usuario", obj.usuario));
                     }
-                    var nObj = (from e in db.Login
+                    var nObj = (from e in Db.Login
                                 where e.usuario == obj.usuario
                                 select e).FirstOrDefault();
 
@@ -104,7 +104,7 @@ namespace api_ventas.Models.Routes
                     }
                     nObj.email = obj.email;
                     nObj.clave = obj.clave;
-                    db.SaveChangesAsync();
+                    Db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -113,17 +113,17 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapDelete("/login", (int id, VentasDB db) =>
+            app.MapDelete("/login", (int id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    var cSelect = from e in db.Empresa
+                    var cSelect = from e in Db.Empresa
                                   where e.consorcio_id == id
                                   select e;
 
-                    db.Empresa.RemoveRange(cSelect);
-                    db.SaveChangesAsync();
+                    Db.Empresa.RemoveRange(cSelect);
+                    Db.SaveChangesAsync();
                     r.respuesta = "OK";
                 }
                 catch (Exception ex)

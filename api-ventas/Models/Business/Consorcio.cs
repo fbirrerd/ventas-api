@@ -10,8 +10,8 @@ namespace api_ventas.Models.Business
     public class Consorcio
     {
 
-        private VentasDB db;
-        public Consorcio(VentasDB db) {
+        private VentasDB Db;
+        public Consorcio(VentasDB Db) {
             this.db = db;
         }
         public bool existCorsorcioXNombre(string nombre)

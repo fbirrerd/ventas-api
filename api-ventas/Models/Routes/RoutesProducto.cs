@@ -17,16 +17,16 @@ namespace api_ventas.Models.Routes
 
         public static void ActiveRoutesStock(RouteGroupBuilder app)
         {
-            app.MapGet("/catproducto", (VentasDB db) =>
+            app.MapGet("/catproducto", (VentasDB Db) =>
             {
-                return db.CatProducto.ToList()
+                return Db.CatProducto.ToList()
                 is List<TCatProducto> l
                     ? Results.Ok(l)
                     : Results.NotFound();
             });
-            app.MapGet("/catproducto/{id}", (int id, VentasDB db) =>
+            app.MapGet("/catproducto/{id}", (int id, VentasDB Db) =>
             {
-                return db.CatProducto.FirstOrDefault(e => e.categoria_producto_id.Equals(id))
+                return Db.CatProducto.FirstOrDefault(e => e.categoria_producto_id.Equals(id))
                 is TCatProducto l
                     ? Results.Ok(l)
                     : Results.NotFound();
@@ -34,13 +34,13 @@ namespace api_ventas.Models.Routes
             app.MapPost("/catproducto", async (
                     TCatProducto obj,
                     IValidator<TCatProducto> validator,
-                    VentasDB db) =>
+                    VentasDB Db) =>
                 {
                     var validationResult = validator.Validate(obj);
                     if (validationResult.IsValid)
                     {
-                        _ = db.CatProducto.Add(obj);
-                        await db.SaveChangesAsync();
+                        _ = Db.CatProducto.Add(obj);
+                        await Db.SaveChangesAsync();
                         return Results.Ok();
                     }
                     else
@@ -52,29 +52,29 @@ namespace api_ventas.Models.Routes
             app.MapPut("/catproducto", async (
                 TCatProducto obj,
                 IValidator<TCatProducto> validator,
-                VentasDB db) =>
+                VentasDB Db) =>
             {
 
-                var objNew = await db.CatProducto.FindAsync(obj.categoria_producto_id);
+                var objNew = await Db.CatProducto.FindAsync(obj.categoria_producto_id);
                 if (objNew == null)
                 {
                     return Results.NotFound();
                 }
                 objNew.nombre = obj.nombre;
                 objNew.empresa_id = obj.empresa_id;
-                await db.SaveChangesAsync();
+                await Db.SaveChangesAsync();
                 return Results.Ok();
             });
-            app.MapDelete("/catproducto", async (int id, VentasDB db) =>
+            app.MapDelete("/catproducto", async (int id, VentasDB Db) =>
             {
-                var registro = await db.CatProducto.FindAsync(id);
+                var registro = await Db.CatProducto.FindAsync(id);
                 if (registro == null)
                 {
                     return Results.NotFound();
                 }
 
-                db.CatProducto.Remove(registro);
-                await db.SaveChangesAsync();
+                Db.CatProducto.Remove(registro);
+                await Db.SaveChangesAsync();
                 return Results.Ok();
             });
         }

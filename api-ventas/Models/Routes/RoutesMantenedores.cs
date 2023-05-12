@@ -17,23 +17,23 @@ namespace api_ventas.Models.Routes
 
         private static void ActiveRoutesConsorcio(RouteGroupBuilder app)
         {
-            app.MapGet("/consorcio", (VentasDB db) =>
+            app.MapGet("/consorcio", (VentasDB Db) =>
             {
-                return db.Consorcio.ToList()
+                return Db.Consorcio.ToList()
                 is List<TConsorcio> l
                 ? Results.Ok(l)
                 : Results.NotFound();
             });
-            app.MapGet("/consorcio/{id:long}", (long? id, VentasDB db) =>
+            app.MapGet("/consorcio/{id:long}", (long? id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    if (id == null || db.Consorcio == null)
+                    if (id == null || Db.Consorcio == null)
                     {
                         throw new Exception("Datos no encontrados");
                     }
-                    r.respuesta = db.Consorcio.FirstOrDefault(e => e.consorcio_id == id);
+                    r.respuesta = Db.Consorcio.FirstOrDefault(e => e.consorcio_id == id);
                 }
                 catch (Exception ex)
                 {
@@ -42,12 +42,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPost("/consorcio", async (TConsorcio obj, VentasDB db) =>
+            app.MapPost("/consorcio", async (TConsorcio obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    Consorcio c = new(db);
+                    Consorcio c = new(Db);
                     if (c.existCorsorcioXNombre(obj.nombre))
                     {
                         throw new Exception(String.Format("Ya existe un {0} llamado '{1}' en la base de datos",
@@ -56,10 +56,10 @@ namespace api_ventas.Models.Routes
                     }
 
                     obj.fecha_creacion = DateTime.Now;
-                    db.Consorcio.Add(obj);
-                    await db.SaveChangesAsync();
+                    Db.Consorcio.Add(obj);
+                    await Db.SaveChangesAsync();
 
-                    r.respuesta = db.Consorcio
+                    r.respuesta = Db.Consorcio
                         .OrderByDescending(e => e.consorcio_id)
                         .First();
 
@@ -71,19 +71,19 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPut("/consorcio", (TConsorcio obj, VentasDB db) =>
+            app.MapPut("/consorcio", (TConsorcio obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    Consorcio c = new(db);
+                    Consorcio c = new(Db);
                     if (c.existCorsorcioXId(obj.consorcio_id))
                     {
                         throw new Exception(String.Format("Ya existe un {0} llamado '{1}' en la base de datos",
                             "Consorcio", obj.nombre));
                     }
 
-                    var nObj = (from e in db.Consorcio
+                    var nObj = (from e in Db.Consorcio
                                 where e.consorcio_id == obj.consorcio_id
                                 select e).FirstOrDefault();
 
@@ -94,7 +94,7 @@ namespace api_ventas.Models.Routes
 
                     nObj.estado = obj.estado;
                     nObj.nombre = obj.nombre;
-                    db.SaveChangesAsync();
+                    Db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -103,17 +103,17 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapDelete("/consorcio", (int id, VentasDB db) =>
+            app.MapDelete("/consorcio", (int id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    var cSelect = from e in db.Consorcio
+                    var cSelect = from e in Db.Consorcio
                                   where e.consorcio_id == id
                                   select e;
 
-                    db.Consorcio.RemoveRange(cSelect);
-                    db.SaveChangesAsync();
+                    Db.Consorcio.RemoveRange(cSelect);
+                    Db.SaveChangesAsync();
                     r.respuesta = "OK";
                 }
                 catch (Exception ex)
@@ -126,23 +126,23 @@ namespace api_ventas.Models.Routes
         }
         private static void activeRoutesEmpresa(RouteGroupBuilder app)
         {
-            app.MapGet("/empresa", (VentasDB db) =>
+            app.MapGet("/empresa", (VentasDB Db) =>
             {
-                return db.Empresa.ToList()
+                return Db.Empresa.ToList()
                 is List<TEmpresa> l
                 ? Results.Ok(l)
                 : Results.NotFound();
             });
-            app.MapGet("/empresa/{id:long}", (long? id, VentasDB db) =>
+            app.MapGet("/empresa/{id:long}", (long? id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    if (id == null || db.Empresa == null)
+                    if (id == null || Db.Empresa == null)
                     {
                         throw new Exception("Datos no encontrados");
                     }
-                    r.respuesta = db.Empresa.FirstOrDefault(e => e.empresa_id == id);
+                    r.respuesta = Db.Empresa.FirstOrDefault(e => e.empresa_id == id);
                 }
                 catch (Exception ex)
                 {
@@ -151,18 +151,18 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPost("/empresa", async (TEmpresa obj, VentasDB db) =>
+            app.MapPost("/empresa", async (TEmpresa obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    Consorcio c = new(db);
+                    Consorcio c = new(Db);
                     if (!c.existCorsorcioXId(obj.consorcio_id))
                     {
                         throw new Exception(String.Format("No existe un {0} con id '{1}' en la base de datos",
                             "consorcio", obj.consorcio_id));
                     }
-                    Empresa e = new(db);
+                    Empresa e = new(Db);
                     if (e.existEmpresaXNombre(obj.nombre))
                     {
                         throw new Exception(String.Format("Ya existe un {0} llamada '{1}' en la base de datos",
@@ -170,10 +170,10 @@ namespace api_ventas.Models.Routes
                     }
 
                     obj.fecha_creacion = DateTime.Now.ToUniversalTime();
-                    db.Empresa.Add(obj);
-                    await db.SaveChangesAsync();
+                    Db.Empresa.Add(obj);
+                    await Db.SaveChangesAsync();
 
-                    r.respuesta = db.Empresa
+                    r.respuesta = Db.Empresa
                         .OrderByDescending(e => e.empresa_id)
                         .First();
 
@@ -185,12 +185,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPut("/empresa", (TEmpresa obj, VentasDB db) =>
+            app.MapPut("/empresa", (TEmpresa obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    int contar = (from e in db.Empresa
+                    int contar = (from e in Db.Empresa
                                   where e.nombre == obj.nombre && e.empresa_id != obj.empresa_id
                                   select e).Count();
 
@@ -200,7 +200,7 @@ namespace api_ventas.Models.Routes
                             "Empresa", obj.nombre));
                     }
 
-                    var nObj = (from e in db.Empresa
+                    var nObj = (from e in Db.Empresa
                                 where e.consorcio_id == obj.consorcio_id
                                 select e).FirstOrDefault();
 
@@ -211,7 +211,7 @@ namespace api_ventas.Models.Routes
 
                     nObj.estado = obj.estado;
                     nObj.nombre = obj.nombre;
-                    db.SaveChangesAsync();
+                    Db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -220,17 +220,17 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapDelete("/empresa", (int id, VentasDB db) =>
+            app.MapDelete("/empresa", (int id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    var cSelect = from e in db.Empresa
+                    var cSelect = from e in Db.Empresa
                                   where e.empresa_id == id
                                   select e;
 
-                    db.Empresa.RemoveRange(cSelect);
-                    db.SaveChangesAsync();
+                    Db.Empresa.RemoveRange(cSelect);
+                    Db.SaveChangesAsync();
                     r.respuesta = "OK";
                 }
                 catch (Exception ex)
@@ -242,23 +242,23 @@ namespace api_ventas.Models.Routes
             });
         }
         private static void ActiveRouteUNegocio(RouteGroupBuilder app) {
-            app.MapGet("/unegocio", (VentasDB db) =>
+            app.MapGet("/unegocio", (VentasDB Db) =>
             {
-                return db.UNegocio.ToList()
+                return Db.UNegocio.ToList()
                 is List<TUNegocio> l
                 ? Results.Ok(l)
                 : Results.NotFound();
             });
-            app.MapGet("/unegocio/{id:long}", (long? id, VentasDB db) =>
+            app.MapGet("/unegocio/{id:long}", (long? id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    if (id == null || db.UNegocio == null)
+                    if (id == null || Db.UNegocio == null)
                     {
                         throw new Exception("Datos no encontrados");
                     }
-                    r.respuesta = db.Empresa.FirstOrDefault(e => e.empresa_id == id);
+                    r.respuesta = Db.Empresa.FirstOrDefault(e => e.empresa_id == id);
                 }
                 catch (Exception ex)
                 {
@@ -267,12 +267,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPost("/unegocio", async (TUNegocio obj, VentasDB db) =>
+            app.MapPost("/unegocio", async (TUNegocio obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    Unegocio u = new(db);
+                    Unegocio u = new(Db);
 
                     if (u.existUnegocioXNombre(obj.nombre, obj.empresa_id))
                     {
@@ -281,10 +281,10 @@ namespace api_ventas.Models.Routes
                     }
 
                     obj.fecha_creacion = DateTime.Now;
-                    db.UNegocio.Add(obj);
-                    await db.SaveChangesAsync();
+                    Db.UNegocio.Add(obj);
+                    await Db.SaveChangesAsync();
 
-                    r.respuesta = db.UNegocio
+                    r.respuesta = Db.UNegocio
                         .OrderByDescending(e => e.unegocio_id)
                         .First();
 
@@ -296,12 +296,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPut("/unegocio", (TUNegocio obj, VentasDB db) =>
+            app.MapPut("/unegocio", (TUNegocio obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    int contar = (from e in db.UNegocio
+                    int contar = (from e in Db.UNegocio
                                   where e.nombre == obj.nombre && e.unegocio_id != obj.unegocio_id
                                   select e).Count();
 
@@ -311,7 +311,7 @@ namespace api_ventas.Models.Routes
                             "unegocio", obj.nombre));
                     }
 
-                    var nObj = (from e in db.UNegocio
+                    var nObj = (from e in Db.UNegocio
                                 where e.unegocio_id == obj.unegocio_id
                                 select e).FirstOrDefault();
 
@@ -322,7 +322,7 @@ namespace api_ventas.Models.Routes
 
                     nObj.estado = obj.estado;
                     nObj.nombre = obj.nombre;
-                    db.SaveChangesAsync();
+                    Db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -331,17 +331,17 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapDelete("/unegocio", (int id, VentasDB db) =>
+            app.MapDelete("/unegocio", (int id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    var cSelect = from e in db.UNegocio
+                    var cSelect = from e in Db.UNegocio
                                   where e.unegocio_id == id
                                   select e;
 
-                    db.UNegocio.RemoveRange(cSelect);
-                    db.SaveChangesAsync();
+                    Db.UNegocio.RemoveRange(cSelect);
+                    Db.SaveChangesAsync();
                     r.respuesta = "OK";
                 }
                 catch (Exception ex)
@@ -354,23 +354,23 @@ namespace api_ventas.Models.Routes
         }
         private static void ActivarRoutesPerfil(RouteGroupBuilder app)
         {
-            app.MapGet("/perfil", (VentasDB db) =>
+            app.MapGet("/perfil", (VentasDB Db) =>
             {
-                return db.Perfil.ToList()
+                return Db.Perfil.ToList()
                 is List<TPerfil> l
                 ? Results.Ok(l)
                 : Results.NotFound();
             });
-            app.MapGet("/perfil/{id:long}", (long? id, VentasDB db) =>
+            app.MapGet("/perfil/{id:long}", (long? id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    if (id == null || db.Perfil == null)
+                    if (id == null || Db.Perfil == null)
                     {
                         throw new Exception("Datos no encontrados");
                     }
-                    r.respuesta = db.Perfil.FirstOrDefault(e => e.perfil_id == id);
+                    r.respuesta = Db.Perfil.FirstOrDefault(e => e.perfil_id == id);
                 }
                 catch (Exception ex)
                 {
@@ -379,12 +379,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPost("/perfil", async (TPerfil obj, VentasDB db) =>
+            app.MapPost("/perfil", async (TPerfil obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    Perfil c = new(db);
+                    Perfil c = new(Db);
 
                     if (c.existPerfilXNombre(obj.nombre))
                     {
@@ -392,10 +392,10 @@ namespace api_ventas.Models.Routes
                             "perfil", obj.nombre));
                     }
 
-                    db.Perfil.Add(obj);
-                    await db.SaveChangesAsync();
+                    Db.Perfil.Add(obj);
+                    await Db.SaveChangesAsync();
 
-                    r.respuesta = db.Perfil
+                    r.respuesta = Db.Perfil
                         .OrderByDescending(e => e.perfil_id)
                         .First();
 
@@ -407,12 +407,12 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapPut("/perfil", (TPerfil obj, VentasDB db) =>
+            app.MapPut("/perfil", (TPerfil obj, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    int contar = (from e in db.Perfil
+                    int contar = (from e in Db.Perfil
                                   where e.nombre == obj.nombre && e.empresa_id != obj.empresa_id
                                   select e).Count();
 
@@ -422,13 +422,13 @@ namespace api_ventas.Models.Routes
                             "perfl", obj.nombre));
                     }
 
-                    var nObj = (from e in db.Perfil
+                    var nObj = (from e in Db.Perfil
                                 where e.perfil_id == obj.perfil_id
                                 select e).FirstOrDefault();
 
                     nObj.estado = obj.estado;
                     nObj.nombre = obj.nombre;
-                    db.SaveChangesAsync();
+                    Db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -437,17 +437,17 @@ namespace api_ventas.Models.Routes
                 }
                 return Results.Ok(r);
             });
-            app.MapDelete("/perfil", (int id, VentasDB db) =>
+            app.MapDelete("/perfil", (int id, VentasDB Db) =>
             {
                 Respuesta r = new();
                 try
                 {
-                    var cSelect = from e in db.Perfil
+                    var cSelect = from e in Db.Perfil
                                   where e.perfil_id == id
                                   select e;
 
-                    db.Perfil.RemoveRange(cSelect);
-                    db.SaveChangesAsync();
+                    Db.Perfil.RemoveRange(cSelect);
+                    Db.SaveChangesAsync();
                     r.respuesta = "OK";
                 }
                 catch (Exception ex)
