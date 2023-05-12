@@ -6,18 +6,17 @@ namespace api_ventas.Models.Routes
 {
     public class RoutesVenta
     {
-        public static void ActiveRoutes(WebApplication app)
+        public static void ActiveRoutes(RouteGroupBuilder app)
         {
             ActiveRoutesVenta(app);
         }
 
-        public static void ActiveRoutesVenta(WebApplication app)
+        public static void ActiveRoutesVenta(RouteGroupBuilder app)
         {
             app.MapPost("/venta", async (iDoc doc, VentasDB db) =>
             {
                 int r = 10000;
 
-                //revisarDetalle
 
 
 

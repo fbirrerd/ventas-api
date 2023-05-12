@@ -68,5 +68,17 @@ namespace api_ventas.Models.Business
             }
         }
 
+        public static oProducto getDatosProducto(long idEmpresaa, long idProducto) { 
+        
+        
+        }
+        public static bool existStockDisponible(long idEmpresaa, string codigoBarra, decimal Cantidad) {
+            return true;
+        }
+        public static bool existStockDisponible(long idEmpresaa, long idProducto, decimal cantidad)
+        {
+            return true;
+        }
+
     }
 }
