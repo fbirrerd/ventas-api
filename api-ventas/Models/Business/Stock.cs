@@ -116,9 +116,14 @@ namespace api_ventas.Models.Business
                     oProducto.cantidad = t.cant_disponible;
                 }
                 //se agrega la unidad de medida
+                var tm = getUnidadMedida(oTProd.tipo_medida_id, Db);
                 Medida med = new Medida();
-
                 med.valor = oTProd.valor_medida;
+
+                med.medida_id = tm.tipo_medida_id;
+                med.nombre = tm.nombre;
+                med.resumen = $"{med.valor} {tm.nombre}";
+
                 oProducto.medida = med;
             }
             if (oProducto == null) {

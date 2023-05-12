@@ -24,10 +24,10 @@ namespace api_ventas.Models.Objects
     }
     public class Medida
     {
+        public long medida_id { get; set; }
         public decimal valor { get; set; }
-
-        public string unidad { get; set; }
-        public string descripcion{ get; set; }
+        public string nombre { get; set; }
+        public string resumen { get; set; }
     }
 
 }
