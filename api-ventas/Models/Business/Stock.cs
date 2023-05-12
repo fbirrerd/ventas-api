@@ -23,17 +23,26 @@ namespace api_ventas.Models.Business
                 e.unegocio_id == unegocio_id).FirstOrDefault();
             return t;        
         }
+        private static TTipoMedida getUnidadMedida(
+            long unidad_medida_id,
+            VentasDB Db)
+        {
+            TTipoMedida? t = Db.TipoMedida.Where(
+                e => e.tipo_medida_id == unidad_medida_id).FirstOrDefault();
+            return t;
+        }
         public static bool GenerarMovimientoBodega(iMovimientoStock oMov, VentasDB Db)
         {
             try {
                 if (oMov == null)
                 {
-                    throw new Exception("Datos enviados incomppletos");
+                    throw new Exception("Datos enviados incompletos");
                 }
                 var t = getStock(
                     oMov.producto_id,
                     oMov.empresa_id,
-                    oMov.unegocio_id, Db);
+                    oMov.unegocio_id, 
+                    Db);
                 if (t == null)
                 {
                     t = new TStock
@@ -100,21 +109,17 @@ namespace api_ventas.Models.Business
                 //se agrega el stock
                 var t = getStock(
                     oTProd.producto_id,
-                    prod.empresa_id,
+                    empresa_id: prod.empresa_id,
                     prod.unegocio_id, 
                     Db);
                 if (t != null) {
                     oProducto.cantidad = t.cant_disponible;
                 }
-                
-                
                 //se agrega la unidad de medida
+                Medida med = new Medida();
 
-
-
-
-
-
+                med.valor = oTProd.valor_medida;
+                oProducto.medida = med;
             }
             if (oProducto == null) {
                 throw new Exception("No se ha podido traer la informacion del producto solicitado");

@@ -4,15 +4,15 @@ namespace api_ventas.Models.Business
 {
     public class Login
     {
-        private VentasDB Db;
-        public Login(VentasDB Db)
+        private VentasDB db;
+        public Login(VentasDB db)
         {
-            this.Db = Db;
+            this.db = db;
         }
         public bool existLoginXLogin(string nombre)
         {
             bool exist = false;
-            int contar = (from e in Db.Perfil
+            int contar = (from e in db.Perfil
                           where e.nombre == nombre
                           select e).Count();
 
@@ -22,7 +22,7 @@ namespace api_ventas.Models.Business
         public bool existLoginXCorreo(string email)
         {
             bool exist = false;
-            int contar = (from e in Db.Login
+            int contar = (from e in db.Login
                           where e.email == email
                           select e).Count();
 
