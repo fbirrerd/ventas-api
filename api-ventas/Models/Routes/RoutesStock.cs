@@ -3,6 +3,7 @@ using api_ventas.Models.Data;
 using api_ventas.Models.Objects;
 using api_ventas.Models.Tables;
 using FluentValidation;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Net;
@@ -42,19 +43,20 @@ namespace api_ventas.Models.Routes
                         statusCode: (int)HttpStatusCode.UnprocessableEntity);
                 }
             });
-            app.MapPost("/stock/{empresa}/{producto}", async (
-                long empresa,
-                long producto,
+            app.MapPost("/stock/producto", async (
+                iProducto producto,
                 VentasDB Db) =>
             {
                 //buscar datos de producto
                 //id, nombre, unidadMedida, Medida, stockDisponible
                 try {
-                    oProducto oProd = Stock.getDatosProducto(empresa, producto, Db);
-                    Results.Ok(oProd);
+                    oProducto oProd = Stock.getDatosProducto(
+                       producto, 
+                        Db);
+                    return Results.Ok(oProd);
                 }
                 catch (Exception ex) {
-                    Results.Problem(ex.Message);                
+                    return Results.NotFound(ex.Message);                
                 }
 
 

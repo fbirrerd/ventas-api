@@ -27,15 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="layers\application\" />
-    <Folder Include="layers\model\" />
-    <Folder Include="layers\domain\" />
-    <Folder Include="layers\infrastructure\" />
-    <Folder Include="layers\persistence\" />
-    <Folder Include="layers\services\" />
-    <Folder Include="layers\presentation\" />
-    <Folder Include="layers\data\" />
-    <Folder Include="Models\DTO\" />
+    <Folder Include="Layers\Application\" />
+    <Folder Include="Layers\model\" />
+    <Folder Include="Layers\Domain\" />
+    <Folder Include="Layers\Infrastructure\" />
+    <Folder Include="Layers\persistence\" />
+    <Folder Include="Layers\services\" />
+    <Folder Include="Layers\presentation\" />
+    <Folder Include="Layers\Data\" />
+    <Folder Include="Models\Dto\" />
   </ItemGroup>
 
 </Project>

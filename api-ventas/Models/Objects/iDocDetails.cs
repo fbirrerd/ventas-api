@@ -2,7 +2,10 @@
 {
     public class iDocDetails
     {
-       long producto_id { get; set; }
-       
+        public long producto_id { get; set; }
+        public decimal cantidad { get; set; }
+        public decimal monto { get; set; }
+
+
     }
 }

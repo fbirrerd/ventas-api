@@ -24,14 +24,14 @@ var cnnString = builder.Configuration.GetConnectionString("PostgreSQLConnection"
 builder.Services.AddDbContext<VentasDB>(options => options.UseNpgsql(cnnString));
 
 builder.Services.AddControllers()
-                .AddFluentValidation(options =>
+                .AddFluentValidation(opciones =>
                 {
                     // Validate child properties and root collection elements
-                    options.ImplicitlyValidateChildProperties = true;
-                    options.ImplicitlyValidateRootCollectionElements = true;
+                    opciones.ImplicitlyValidateChildProperties = true;
+                    opciones.ImplicitlyValidateRootCollectionElements = true;
 
                     // Automatic registration of validators in assembly
-                    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                    opciones.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
                 });
 
 var app = builder.Build();
@@ -47,6 +47,6 @@ var grupo = app.MapGroup("/api/v1");
 //RoutesMantenedores.ActiveRoutes(grupo);
 RoutesProducto.ActiveRoutes(grupo);
 RoutesStock.ActiveRoutes(grupo);
-
+RoutesVenta.ActiveRoutes(grupo);
 
 app.Run();

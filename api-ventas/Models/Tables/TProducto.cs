@@ -21,7 +21,7 @@ namespace api_ventas.Models.Tables
         [StringLength(500)]
         public string nombre1 { set; get; }
         [StringLength(500)]
-        public string nombre2 { set; get; }
+        public string? nombre2 { set; get; }
         public long valor_venta { set; get; }
         [Required]
         public long tipo_medida_id { set; get; }

@@ -1,11 +1,28 @@
 ﻿using api_ventas.Models.Data;
 using api_ventas.Models.Objects;
 using api_ventas.Models.Tables;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Npgsql;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
 
 namespace api_ventas.Models.Business
 {
     public class Stock
     {
+
+        private static TStock getStock(
+            long producto_id,
+            long empresa_id,
+            long unegocio_id,
+            VentasDB Db) {
+            TStock? t = Db.Stock.Where(
+                e => e.producto_id == producto_id &&
+                e.empresa_id ==  empresa_id &&
+                e.unegocio_id == unegocio_id).FirstOrDefault();
+            return t;        
+        }
         public static bool GenerarMovimientoBodega(iMovimientoStock oMov, VentasDB Db)
         {
             try {
@@ -13,12 +30,10 @@ namespace api_ventas.Models.Business
                 {
                     throw new Exception("Datos enviados incomppletos");
                 }
-                TStock? t = null;
-                t = Db.Stock.Where(
-                    e => e.producto_id == oMov.producto_id &&
-                    e.empresa_id == oMov.empresa_id &&
-                    e.unegocio_id == oMov.unegocio_id).FirstOrDefault();
-
+                var t = getStock(
+                    oMov.producto_id,
+                    oMov.empresa_id,
+                    oMov.unegocio_id, Db);
                 if (t == null)
                 {
                     t = new TStock
@@ -68,18 +83,91 @@ namespace api_ventas.Models.Business
             }
         }
 
-        public static oProducto getDatosProducto(long idEmpresaa, long idProducto, VentasDB Db) {
-
-            return new oProducto();
-        
-        }
-        public static bool existStockDisponible(long idEmpresaa, string codigoBarra, decimal CantidadConsultada, VentasDB Db) {
-
-              return true;
-        }
-        public static bool existStockDisponible(long idEmpresaa, long idProducto, decimal CantidadConsultada)
+        public static oProducto getDatosProducto(
+            iProducto prod,
+            VentasDB Db)
         {
-            return true;
+
+            oProducto oProducto = new oProducto();
+
+            TProducto oTProd = getProductoActual(
+                prod.codigoProducto, 
+                prod.empresa_id, 
+                Db);
+
+            if (oTProd != null) {
+                oProducto = new oProducto(oTProd.producto_id, oTProd.codigo, oTProd.nombre1);
+                //se agrega el stock
+                var t = getStock(
+                    oTProd.producto_id,
+                    prod.empresa_id,
+                    prod.unegocio_id, 
+                    Db);
+                if (t != null) {
+                    oProducto.cantidad = t.cant_disponible;
+                }
+                
+                
+                //se agrega la unidad de medida
+
+
+
+
+
+
+            }
+            if (oProducto == null) {
+                throw new Exception("No se ha podido traer la informacion del producto solicitado");
+            }
+            else {
+                return oProducto;
+            }
+        }
+
+        private static TProducto getProductoActual(
+            string codigoProducto, 
+            long empresa_id, 
+            VentasDB Db) {
+            var lista = Db.Producto.Where(l => l.codigo.Equals(codigoProducto)   
+            && (l.empresa_id== null || l.empresa_id == empresa_id)).OrderBy(p=> p.empresa_id).ToList();
+            if (lista.Count() == 0)
+            {
+                throw new Exception("Producto no existe");
+            }
+            else 
+            {
+                return lista[0];
+            }
+        }
+
+
+        public static bool existStockDisponible(
+            long empresa_id, 
+            string codigoProducto, 
+            decimal CantidadConsultada, 
+            VentasDB Db) {
+
+            var item = Db.Producto.Where(s => s.codigo.Equals(codigoProducto)).FirstOrDefault();
+            if (item != null)
+            {
+                return existStockDisponible(empresa_id, item.producto_id,CantidadConsultada, Db);
+            }
+            return false;
+        }
+        public static bool existStockDisponible(
+            long empresa_id, 
+            long producto_id,
+            decimal CantidadConsultada, 
+            VentasDB Db)
+        {
+            var item = Db.Stock.Where(s => s.empresa_id == empresa_id && s.producto_id == producto_id).FirstOrDefault();
+            if (item != null) {
+                if (item.cant_disponible > CantidadConsultada)
+                {
+                    return true;        
+                }
+            }
+            return false;
         }
 
     }

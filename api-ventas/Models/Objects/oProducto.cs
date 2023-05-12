@@ -1,25 +1,33 @@
 ﻿using NetTopologySuite.GeometriesGraph;
+using System.Security.Cryptography.X509Certificates;
 
 namespace api_ventas.Models.Objects
 {
     public class oProducto
     {
-        public int id { get; set; }
+        public long producto_id { get; set; }
         public string codigo { get; set; }
         public string nombre { get; set; }
         public decimal cantidad { get; set; }
-        public string medida { get; set; }
+        public Medida medida { get; set; }
 
-        public oProducto(int id, string codigo, string nombre, decimal cantidad, string medida) { 
-            this.id = id;
+        public oProducto(long producto_id, string codigo, string nombre)
+        {
+            this.producto_id = producto_id;
             this.codigo = codigo;
             this.nombre = nombre;
-            this.cantidad = cantidad;
-            this.medida = medida;
         }
         public oProducto()
         {
         }
 
     }
+    public class Medida
+    {
+        public decimal valor { get; set; }
+
+        public string unidad { get; set; }
+        public string descripcion{ get; set; }
+    }
+
 }
