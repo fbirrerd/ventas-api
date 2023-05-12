@@ -12,12 +12,12 @@ namespace api_ventas.Models.Business
 
         private VentasDB Db;
         public Consorcio(VentasDB Db) {
-            this.db = db;
+            this.Db = Db;
         }
         public bool existCorsorcioXNombre(string nombre)
         {
             bool exist = false;
-            int contar = (from e in db.Consorcio
+            int contar = (from e in Db.Consorcio
                           where e.nombre == nombre
                           select e).Count();
 
@@ -27,7 +27,7 @@ namespace api_ventas.Models.Business
         public bool existCorsorcioXId(long id)
         {
             bool exist = false;
-            int contar = (from e in db.Consorcio
+            int contar = (from e in Db.Consorcio
                           where e.consorcio_id == id
                           select e).Count();
 
