@@ -29,8 +29,8 @@ namespace api_ventas.Models.Routes
                 {
                     try
                     {
-                        var bandeera = Business.Stock.GenerarMovimientoBodega(obj, Db);
-                        return Results.Ok(bandeera);
+                        var bandera = Business.Stock.GenerarMovimientoBodega(obj, Db);
+                        return Results.Ok(bandera);
                     }
                     catch (Exception ex)
                     {

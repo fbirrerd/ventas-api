@@ -4,12 +4,7 @@ namespace api_ventas.Models.Business
 {
     public class Perfil
     {
-        private VentasDB Db;
-        public Perfil(VentasDB Db)
-        {
-            this.Db = Db;
-        }
-        public bool existPerfilXNombre(string nombre)
+        public bool existPerfilXNombre(string nombre, VentasDB Db)
         {
             bool exist = false;
             int contar = (from e in Db.Perfil
@@ -19,7 +14,7 @@ namespace api_ventas.Models.Business
             if (contar > 0) exist = true;
             return exist;
         }
-        public bool existPerfilXId(long id)
+        public bool existPerfilXId(long id, VentasDB Db)
         {
             bool exist = false;
             int contar = (from e in Db.Perfil

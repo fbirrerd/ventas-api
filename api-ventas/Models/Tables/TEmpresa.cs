@@ -19,5 +19,6 @@ namespace api_ventas.Models.Tables
         public int estado { set; get; }
         [Required]
         public Int64 consorcio_id { set; get; }
+        public bool folioXUniNegocio { set; get; }
     }
 }

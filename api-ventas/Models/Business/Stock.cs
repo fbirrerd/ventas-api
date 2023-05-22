@@ -4,6 +4,7 @@ using api_ventas.Models.Tables;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using NetTopologySuite.Index.HPRtree;
 using Npgsql;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
 
@@ -88,7 +89,6 @@ namespace api_ventas.Models.Business
             }
             catch (Exception ex) {
                 throw new Exception(ex.Message);
-                            
             }
         }
 
@@ -100,8 +100,8 @@ namespace api_ventas.Models.Business
             oProducto oProducto = new oProducto();
 
             TProducto oTProd = getProductoActual(
+                prod.empresa_id,
                 prod.codigoProducto, 
-                prod.empresa_id, 
                 Db);
 
             if (oTProd != null) {
@@ -135,19 +135,44 @@ namespace api_ventas.Models.Business
         }
 
         private static TProducto getProductoActual(
-            string codigoProducto, 
-            long empresa_id, 
-            VentasDB Db) {
-            var lista = Db.Producto.Where(l => l.codigo.Equals(codigoProducto)   
-            && (l.empresa_id== null || l.empresa_id == empresa_id)).OrderBy(p=> p.empresa_id).ToList();
+            long empresa_id,
+            string codigoProducto,
+            VentasDB Db)
+        {
+            var lista = Db.Producto.Where(l => l.codigo.Equals(codigoProducto)
+            && (l.empresa_id == null || l.empresa_id == empresa_id)).OrderBy(p => p.empresa_id).ToList();
             if (lista.Count() == 0)
             {
                 throw new Exception("Producto no existe");
             }
-            else 
+            else
             {
                 return lista[0];
             }
+        }
+
+        public static  ProductoStock getProductoStock(
+            long empresa_id,
+            long producto_id,
+            VentasDB Db)
+        {
+            var respuesta = new ProductoStock();
+            respuesta.producto_id = producto_id;
+
+
+            var prod = Db.Producto.Where(l => l.producto_id == producto_id
+            && (l.empresa_id == null || l.empresa_id == empresa_id)).OrderBy(p => p.empresa_id).ToList();
+            if (prod.Count() == 0)
+            {
+                throw new Exception("Producto no existe");
+            }
+            else
+            {
+                respuesta.producto_id = prod[0].producto_id;
+                respuesta.codigo = prod[0].codigo;
+                respuesta.cantidad = getStockDisponible(empresa_id, producto_id, Db);
+            }
+            return respuesta;
         }
 
 
@@ -170,14 +195,77 @@ namespace api_ventas.Models.Business
             decimal CantidadConsultada, 
             VentasDB Db)
         {
-            var item = Db.Stock.Where(s => s.empresa_id == empresa_id && s.producto_id == producto_id).FirstOrDefault();
-            if (item != null) {
-                if (item.cant_disponible > CantidadConsultada)
-                {
-                    return true;        
-                }
+            var CantDisponible = getStockDisponible(
+            empresa_id,
+            producto_id,
+            Db);
+
+            if (CantDisponible > CantidadConsultada)
+            {
+                return true;
             }
+        
             return false;
+        }
+        private static decimal getStockDisponible(
+            long empresa_id,
+            long producto_id,
+            VentasDB Db)
+        {
+            var item = Db.Stock.Where(s => s.empresa_id == empresa_id && s.producto_id == producto_id).FirstOrDefault();
+            if (item != null)
+            {
+                return item.cant_disponible;
+            }
+            return 0;
+        }
+
+        public static TProducto getProductoXId(
+            long producto_id,
+            VentasDB Db)
+        {
+
+            var lista = Db.Producto.Where(p => p.producto_id == producto_id).ToList();
+            if (lista.Count() == 0)
+            {
+                throw new Exception("Producto no existe");
+            }
+            else
+            {
+                return lista[0];
+            }
+        }
+
+        public static bool consumirStock(long empresa_id, long unegocio_id, string usuario, long producto_id, decimal cantidad, VentasDB Db) {
+
+            try {
+                string tipoMovimiento = null;
+                if (cantidad > 0)
+                {
+                    tipoMovimiento = "E";
+
+                }
+                else
+                {
+                    tipoMovimiento = "S";
+                    cantidad = cantidad * -1;
+                }
+
+                iMovimientoStock oMov = new iMovimientoStock
+                {
+                    cantidad = cantidad,
+                    empresa_id = empresa_id,
+                    producto_id = producto_id,
+                    tipo_movimiento = tipoMovimiento,
+                    unegocio_id = unegocio_id,
+                    usuario = usuario
+                };
+                GenerarMovimientoBodega(oMov, Db);
+                return true;
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
         }
 
     }

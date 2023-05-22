@@ -1,4 +1,5 @@
 ﻿using api_ventas.Models.Data;
+using api_ventas.Models.Tables;
 
 namespace api_ventas.Models.Business
 {
@@ -30,6 +31,18 @@ namespace api_ventas.Models.Business
             if (contar > 0) exist = true;
             return exist;
         }
+        public static bool empresaConDocsXUnidadDeNegocio(long id, VentasDB Db)
+        {
+            bool bandera = false;
+            
+            TEmpresa? t = (from e in Db.Empresa
+                       where e.empresa_id == id
+                          select e).FirstOrDefault();
 
+            if (t != null) {
+                return t.folioXUniNegocio;
+            }
+            return bandera;
+        }
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace api_ventas.Models.Objects
+﻿using api_ventas.Models.Data;
+using api_ventas.Models.Tables;
+
+
+namespace api_ventas.Models.Objects
 {
     public class iDoc
     {
@@ -8,7 +12,7 @@
         public string usuario { get; set; }
         public DateTime creation_date { get; set; }
         public List<iDocDetails> Details { get; set; }
-        public long tipoventa_id { get; set; }
+        public string TipoVenta { get; set; }
         public string observaciones { get; set; }
 
         public iDoc()
@@ -16,6 +20,7 @@
             this.Details = new List<iDocDetails>();
 
         }
+
 
 
     }

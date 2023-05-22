@@ -272,9 +272,9 @@ namespace api_ventas.Models.Routes
                 Respuesta r = new();
                 try
                 {
-                    Unegocio u = new(Db);
+  
 
-                    if (u.existUnegocioXNombre(obj.nombre, obj.empresa_id))
+                    if (Unegocio.existUnegocioXNombre(obj.nombre, obj.empresa_id, Db))
                     {
                         throw new Exception(String.Format("Ya existe un {0} llamado '{1}' en la base de datos",
                             "empresa", obj.nombre));
@@ -384,9 +384,9 @@ namespace api_ventas.Models.Routes
                 Respuesta r = new();
                 try
                 {
-                    Perfil c = new(Db);
+                    Perfil c = new();
 
-                    if (c.existPerfilXNombre(obj.nombre))
+                    if (c.existPerfilXNombre(obj.nombre, Db))
                     {
                         throw new Exception(String.Format("Ya existe un {0} llamado '{1}' en la base de datos",
                             "perfil", obj.nombre));
