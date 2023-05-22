@@ -1,6 +1,4 @@
-﻿using NetTopologySuite.GeometriesGraph;
-
-namespace api_ventas.Models.Objects
+﻿namespace api_ventas.Models.Objects
 {
     public class iProducto
     {

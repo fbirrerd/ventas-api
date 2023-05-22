@@ -1,8 +1,6 @@
 ﻿using api_ventas.Models.Business;
 using api_ventas.Models.Data;
 using api_ventas.Models.Objects;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using NuGet.Protocol;
 
 namespace api_ventas.Models.Routes
 {
@@ -19,16 +17,16 @@ namespace api_ventas.Models.Routes
             {
                 try
                 {
-                    RespuestaVenta r = new RespuestaVenta();
+                    DocumentoVenta r = new DocumentoVenta();
                     r = Venta.realizarVenta(doc, Db);
                     return Results.Ok(r);
                 }
                 catch (Exception ex)
                 {
                     return Results.Problem(ex.Message);
-                    
+
                 }
-                
+
             });
 
         }

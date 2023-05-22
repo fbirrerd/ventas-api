@@ -2,7 +2,6 @@
 using api_ventas.Models.Data;
 using api_ventas.Models.Objects;
 using api_ventas.Models.Tables;
-using NuGet.Protocol;
 
 namespace api_ventas.Models.Routes
 {

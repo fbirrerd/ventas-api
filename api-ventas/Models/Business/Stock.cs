@@ -1,12 +1,6 @@
 ﻿using api_ventas.Models.Data;
 using api_ventas.Models.Objects;
 using api_ventas.Models.Tables;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using NetTopologySuite.Index.HPRtree;
-using Npgsql;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
 
 namespace api_ventas.Models.Business
 {
@@ -17,12 +11,13 @@ namespace api_ventas.Models.Business
             long producto_id,
             long empresa_id,
             long unegocio_id,
-            VentasDB Db) {
+            VentasDB Db)
+        {
             TStock? t = Db.Stock.Where(
                 e => e.producto_id == producto_id &&
-                e.empresa_id ==  empresa_id &&
+                e.empresa_id == empresa_id &&
                 e.unegocio_id == unegocio_id).FirstOrDefault();
-            return t;        
+            return t;
         }
         private static TTipoMedida getUnidadMedida(
             long unidad_medida_id,
@@ -34,7 +29,8 @@ namespace api_ventas.Models.Business
         }
         public static bool GenerarMovimientoBodega(iMovimientoStock oMov, VentasDB Db)
         {
-            try {
+            try
+            {
                 if (oMov == null)
                 {
                     throw new Exception("Datos enviados incompletos");
@@ -42,7 +38,7 @@ namespace api_ventas.Models.Business
                 var t = getStock(
                     oMov.producto_id,
                     oMov.empresa_id,
-                    oMov.unegocio_id, 
+                    oMov.unegocio_id,
                     Db);
                 if (t == null)
                 {
@@ -56,22 +52,24 @@ namespace api_ventas.Models.Business
                         cant_reserva = 0,
                         cant_merma = 0,
                         cant_historico = oMov.cantidad
-                        
+
                     };
                     Db.Stock.Add(t);
                 }
-                else 
+                else
                 {
                     if (oMov.tipo_movimiento.Equals("S"))
                     {
-                        if (oMov.cantidad > t.cant_disponible) {
+                        if (oMov.cantidad > t.cant_disponible)
+                        {
                             throw new Exception("No existe stock disponible");
                         }
                         t.cant_disponible -= oMov.cantidad;
                     }
-                    if (oMov.tipo_movimiento.Equals("I")) {
+                    if (oMov.tipo_movimiento.Equals("E"))
+                    {
                         t.cant_disponible += oMov.cantidad;
-                        t.cant_historico +=  oMov.cantidad;
+                        t.cant_historico += oMov.cantidad;
                     }
                 }
                 TStockMovimiento sm = new TStockMovimiento();
@@ -87,7 +85,8 @@ namespace api_ventas.Models.Business
                 var r = Db.SaveChanges();
                 return true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }
@@ -101,18 +100,20 @@ namespace api_ventas.Models.Business
 
             TProducto oTProd = getProductoActual(
                 prod.empresa_id,
-                prod.codigoProducto, 
+                prod.codigoProducto,
                 Db);
 
-            if (oTProd != null) {
+            if (oTProd != null)
+            {
                 oProducto = new oProducto(oTProd.producto_id, oTProd.codigo, oTProd.nombre1);
                 //se agrega el stock
                 var t = getStock(
                     oTProd.producto_id,
                     empresa_id: prod.empresa_id,
-                    prod.unegocio_id, 
+                    prod.unegocio_id,
                     Db);
-                if (t != null) {
+                if (t != null)
+                {
                     oProducto.cantidad = t.cant_disponible;
                 }
                 //se agrega la unidad de medida
@@ -126,10 +127,12 @@ namespace api_ventas.Models.Business
 
                 oProducto.medida = med;
             }
-            if (oProducto == null) {
+            if (oProducto == null)
+            {
                 throw new Exception("No se ha podido traer la informacion del producto solicitado");
             }
-            else {
+            else
+            {
                 return oProducto;
             }
         }
@@ -151,7 +154,7 @@ namespace api_ventas.Models.Business
             }
         }
 
-        public static  ProductoStock getProductoStock(
+        public static ProductoStock getProductoStock(
             long empresa_id,
             long producto_id,
             VentasDB Db)
@@ -177,22 +180,23 @@ namespace api_ventas.Models.Business
 
 
         public static bool existStockDisponible(
-            long empresa_id, 
-            string codigoProducto, 
-            decimal CantidadConsultada, 
-            VentasDB Db) {
+            long empresa_id,
+            string codigoProducto,
+            decimal CantidadConsultada,
+            VentasDB Db)
+        {
 
             var item = Db.Producto.Where(s => s.codigo.Equals(codigoProducto)).FirstOrDefault();
             if (item != null)
             {
-                return existStockDisponible(empresa_id, item.producto_id,CantidadConsultada, Db);
+                return existStockDisponible(empresa_id, item.producto_id, CantidadConsultada, Db);
             }
             return false;
         }
         public static bool existStockDisponible(
-            long empresa_id, 
+            long empresa_id,
             long producto_id,
-            decimal CantidadConsultada, 
+            decimal CantidadConsultada,
             VentasDB Db)
         {
             var CantDisponible = getStockDisponible(
@@ -204,7 +208,7 @@ namespace api_ventas.Models.Business
             {
                 return true;
             }
-        
+
             return false;
         }
         private static decimal getStockDisponible(
@@ -236,9 +240,11 @@ namespace api_ventas.Models.Business
             }
         }
 
-        public static bool consumirStock(long empresa_id, long unegocio_id, string usuario, long producto_id, decimal cantidad, VentasDB Db) {
+        public static bool consumirStock(long empresa_id, long unegocio_id, string usuario, long producto_id, decimal cantidad, VentasDB Db)
+        {
 
-            try {
+            try
+            {
                 string tipoMovimiento = null;
                 if (cantidad > 0)
                 {
@@ -263,7 +269,8 @@ namespace api_ventas.Models.Business
                 GenerarMovimientoBodega(oMov, Db);
                 return true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }

@@ -1,6 +1,5 @@
 ﻿using api_ventas.Models.Tables;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace api_ventas.Models.Data
 {

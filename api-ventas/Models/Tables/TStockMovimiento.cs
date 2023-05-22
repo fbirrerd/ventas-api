@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 
 namespace api_ventas.Models.Tables
 {
@@ -20,6 +19,6 @@ namespace api_ventas.Models.Tables
         public DateTime creation_date { set; get; }
         public string tipo_movimiento { set; get; }
         public decimal cantidad { set; get; }
-        
+
     }
 }

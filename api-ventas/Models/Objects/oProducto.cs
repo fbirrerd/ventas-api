@@ -1,7 +1,4 @@
-﻿using NetTopologySuite.GeometriesGraph;
-using System.Security.Cryptography.X509Certificates;
-
-namespace api_ventas.Models.Objects
+﻿namespace api_ventas.Models.Objects
 {
     public class oProducto
     {

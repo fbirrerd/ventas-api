@@ -1,8 +1,6 @@
-﻿    using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 
 namespace api_ventas.Models.Tables
 {

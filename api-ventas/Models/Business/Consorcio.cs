@@ -1,8 +1,4 @@
 ﻿using api_ventas.Models.Data;
-using api_ventas.Models.Tables;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 
 namespace api_ventas.Models.Business
@@ -11,7 +7,8 @@ namespace api_ventas.Models.Business
     {
 
         private VentasDB Db;
-        public Consorcio(VentasDB Db) {
+        public Consorcio(VentasDB Db)
+        {
             this.Db = Db;
         }
         public bool existCorsorcioXNombre(string nombre)
@@ -21,7 +18,7 @@ namespace api_ventas.Models.Business
                           where e.nombre == nombre
                           select e).Count();
 
-            if (contar > 0) exist= true;
+            if (contar > 0) exist = true;
             return exist;
         }
         public bool existCorsorcioXId(long id)

@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 
 namespace api_ventas.Models.Tables
 {
@@ -21,7 +19,7 @@ namespace api_ventas.Models.Tables
             {
                 RuleFor(x => x.signo).NotNull().Length(1, 20).NotEmpty().WithMessage("Debe enviar un signo para el tipo de medida");
                 RuleFor(x => x.nombre).NotNull().Length(1, 100).NotEmpty().WithMessage("Debe enviar un mombre para el tipo de medida");
-                RuleFor(x => x.estado).NotNull().InclusiveBetween(0,1).WithMessage("Debe enviar un estado");
+                RuleFor(x => x.estado).NotNull().InclusiveBetween(0, 1).WithMessage("Debe enviar un estado");
             }
         }
 

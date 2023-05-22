@@ -19,7 +19,7 @@ namespace api_ventas.Models.Business
         public static List<TTipoVenta> traeTipoVenta(VentasDB Db)
         {
             List<TTipoVenta> lista = (from e in Db.TipoVenta
-                          select e).ToList();
+                                      select e).ToList();
 
             return lista;
         }

@@ -2,13 +2,13 @@
 using api_ventas.Models.Data;
 using api_ventas.Models.Objects;
 using api_ventas.Models.Tables;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace api_ventas.Models.Routes
 {
     public class RoutesMantenedores
     {
-        public static void ActiveRoutes(RouteGroupBuilder app) {
+        public static void ActiveRoutes(RouteGroupBuilder app)
+        {
             ActiveRoutesConsorcio(app);
             activeRoutesEmpresa(app);
             ActiveRouteUNegocio(app);
@@ -241,7 +241,8 @@ namespace api_ventas.Models.Routes
                 return Results.Ok(r);
             });
         }
-        private static void ActiveRouteUNegocio(RouteGroupBuilder app) {
+        private static void ActiveRouteUNegocio(RouteGroupBuilder app)
+        {
             app.MapGet("/unegocio", (VentasDB Db) =>
             {
                 return Db.UNegocio.ToList()
@@ -272,7 +273,7 @@ namespace api_ventas.Models.Routes
                 Respuesta r = new();
                 try
                 {
-  
+
 
                     if (Unegocio.existUnegocioXNombre(obj.nombre, obj.empresa_id, Db))
                     {

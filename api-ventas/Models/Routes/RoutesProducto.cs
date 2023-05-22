@@ -1,9 +1,6 @@
-﻿using api_ventas.Models.Business;
-using api_ventas.Models.Data;
-using api_ventas.Models.Objects;
+﻿using api_ventas.Models.Data;
 using api_ventas.Models.Tables;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace api_ventas.Models.Routes

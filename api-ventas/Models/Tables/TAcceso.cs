@@ -11,7 +11,7 @@ namespace api_ventas.Models.Tables
         [Key]
         public string token { set; get; }
         public DateTime fecha_creacion { set; get; }
-        public DateTime fecha_termino{ set; get; }
+        public DateTime fecha_termino { set; get; }
         [Required]
         public string usuario { set; get; }
         [Required]

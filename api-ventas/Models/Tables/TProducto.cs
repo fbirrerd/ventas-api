@@ -1,8 +1,5 @@
-﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 
 namespace api_ventas.Models.Tables
 {
@@ -12,9 +9,9 @@ namespace api_ventas.Models.Tables
         [Key]
         public long producto_id { set; get; }
         public Nullable<long> empresa_id { set; get; }
-    
+
         public long categoria_producto_id { set; get; }
-  
+
         [StringLength(50)]
         public string codigo { set; get; }
         [Required]

@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 namespace api_ventas.Models.Tables
 {
+    [Table("venta")]
     public class TVenta
     {
         [Key]
@@ -15,8 +14,10 @@ namespace api_ventas.Models.Tables
         public string usuario_creador { get; set; }
         public decimal documento { get; set; }
         public string tipo_venta_sigla { get; set; }
-
-
-
+        [NotMapped]
+        public List<TVentaDetalle> detalle { get; set; }
+        public decimal neto { get; set; }
+        public decimal impuesto { get; set; }
+        public decimal total { get; set; }
     }
 }

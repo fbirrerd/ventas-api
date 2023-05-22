@@ -31,7 +31,7 @@ namespace api_ventas.Models.Business
             bool exist = false;
             int contar = (from e in Db.UNegocio
                           where e.empresa_id == empresa_id
-                          &&   e.unegocio_id == uNegocio_id
+                          && e.unegocio_id == uNegocio_id
                           select e).Count();
 
             if (contar > 0) exist = true;

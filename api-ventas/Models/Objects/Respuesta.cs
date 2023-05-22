@@ -1,6 +1,4 @@
-﻿using System.Security.Policy;
-
-namespace api_ventas.Models.Objects
+﻿namespace api_ventas.Models.Objects
 {
     public class Respuesta
     {

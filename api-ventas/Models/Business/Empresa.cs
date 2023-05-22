@@ -34,12 +34,13 @@ namespace api_ventas.Models.Business
         public static bool empresaConDocsXUnidadDeNegocio(long id, VentasDB Db)
         {
             bool bandera = false;
-            
-            TEmpresa? t = (from e in Db.Empresa
-                       where e.empresa_id == id
-                          select e).FirstOrDefault();
 
-            if (t != null) {
+            TEmpresa? t = (from e in Db.Empresa
+                           where e.empresa_id == id
+                           select e).FirstOrDefault();
+
+            if (t != null)
+            {
                 return t.folioXUniNegocio;
             }
             return bandera;

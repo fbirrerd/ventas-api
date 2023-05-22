@@ -1,11 +1,7 @@
 ﻿using api_ventas.Models.Business;
 using api_ventas.Models.Data;
 using api_ventas.Models.Objects;
-using api_ventas.Models.Tables;
 using FluentValidation;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using System.Net;
 
 namespace api_ventas.Models.Routes
@@ -49,14 +45,16 @@ namespace api_ventas.Models.Routes
             {
                 //buscar datos de producto
                 //id, nombre, unidadMedida, Medida, stockDisponible
-                try {
+                try
+                {
                     oProducto oProd = Stock.getDatosProducto(
-                       producto, 
+                       producto,
                         Db);
                     return Results.Ok(oProd);
                 }
-                catch (Exception ex) {
-                    return Results.NotFound(ex.Message);                
+                catch (Exception ex)
+                {
+                    return Results.NotFound(ex.Message);
                 }
 
 
